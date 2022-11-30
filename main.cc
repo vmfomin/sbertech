@@ -4,7 +4,10 @@
 
 volatile int32_t sig_exit = 0;
 
-void quit(int32_t signal) { sig_exit = signal; }
+void quit(int32_t signal)
+{
+    sig_exit = signal;
+}
 
 int main(int argc, char** argv)
 {

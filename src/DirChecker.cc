@@ -4,7 +4,7 @@
 
 constexpr const size_t BUF_LEN = 2048;
 
-DirChecker::DirChecker(const std::string& path) : fd_(0), cwd_(path)
+DirChecker::DirChecker(const std::string& path) : fd_(-1), wd_(-1) cwd_(path)
 {
     if (cwd_.back() != '/') cwd_ += "/";
 
@@ -14,10 +14,11 @@ DirChecker::DirChecker(const std::string& path) : fd_(0), cwd_(path)
         std::cerr << "Cannot init inotify" << std::endl;
         std::exit(EXIT_FAILURE);
     }
+
     wd_ = inotify_add_watch(fd_, cwd_.c_str(), IN_CLOSE);
-    if (fd_ == -1)
+    if (wd_ == -1)
     {
-        std::cerr << "Cannot init inotify" << std::endl;
+        std::cerr << "Cannot init inotify watcher" << std::endl;
         std::exit(EXIT_FAILURE);
     }
 }
